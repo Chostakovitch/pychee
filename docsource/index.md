@@ -1,15 +1,11 @@
-.. pychee documentation master file
-
-
 # pychee: Client for Lychee, written in Python.
 
 
-## Core Documentation
+```{toctree}
+:maxdepth: 1
 
-.. toctree::
-   :maxdepth: 1
-   
-   pychee
+pychee
+```
 
 
 ## Installation
