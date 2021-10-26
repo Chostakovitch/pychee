@@ -10,3 +10,5 @@ My reference is [this documentation](https://lycheeorg.github.io/docs/api.html).
 
 Disclaimer : I usually suck at coding, so use with caution and at your own risks. Tested with Lychee
 v4.3.4. The code won't be retrocompatible and will just work with the last version.
+
+Documentation is published there : https://chostakovitch.github.io/pychee/index.html
