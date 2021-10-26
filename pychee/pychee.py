@@ -1,32 +1,46 @@
 #!/usr/bin/env python
 # coding=utf-8
+"""
+# pychee: Client for Lychee, written in Python.
 
+For additonal information, visit: [Lychee](https://github.com/LycheeOrg/Lychee).
+"""
 from posixpath import join
 from urllib.parse import unquote
 from typing import List
 from requests import Session
 
+__version__ = 0.0
+
 class LycheeForbidden(Exception):
+    """Raised when the Lychee request returns 401: Forbidden."""
+
     pass
 
 class LycheeError(Exception):
+    """Raised for general Lychee errors."""
+
     pass
 
 class LycheeAPISession(Session):
     """
-    Wrapper around Session to set base API URL and
-    throw exception if request needs auth and user
-    is not logged in.
+    Lychee API Session Handler.
+
+    Wrapper around Session to set base API URL and throw exception if request
+    needs auth and user is not logged in.
     """
+
     UNAUTH_MESSAGES = [
         '"Warning: Album private!"',
     ]
 
     def __init__(self, prefix_url: str, *args, **kwargs):
+        """Initialize the `requests.session`."""
         super().__init__(*args, **kwargs)
         self._prefix_url = prefix_url
 
     def request(self, method, url, *args, **kwargs):
+        """Make an HTTP request with the configured session."""
         url = join(self._prefix_url, 'api', url)
         response = super().request(method, url, *args, **kwargs)
         if response.text in self.UNAUTH_MESSAGES:
@@ -36,6 +50,13 @@ class LycheeAPISession(Session):
         return response
 
 class LycheeClient:
+    """
+    Lychee API Client.
+    
+    The primary [Lychee API](https://lycheeorg.github.io/docs/api.html) client
+    to interact with the specified Lychee server.
+    """
+
     def __init__(self, url: str):
         """Initialize a new Lychee session for given URL with CSRF token."""
         self._session = LycheeAPISession(url)
@@ -44,34 +65,49 @@ class LycheeClient:
         self._session.headers.update({'X-XSRF-TOKEN': csrf_token})
 
     def login(self, username: str, password: str) -> bool:
+        """Log in to Lychee server."""
         auth = {'username': username, 'password': password}
         # Session takes care of setting cookies
         login_response = self._session.post('Session::login', data=auth)
         return 'true' in login_response.text
 
     def logout(self):
+        """Log out from Lychee server."""
         self._session.post('Session::logout')
         self._session.cookies.clear()
 
     def get_albums(self) -> dict:
-        """Returns an array of albums or false on failure."""
+        """
+        Get List of Available Albums in Lychee.
+
+        Returns an array of albums or false on failure.
+        """
         return self._session.post('Albums::get').json()
 
     def get_albums_position_data(self) -> dict:
-        """Provided an albumID, returns the album with only map related data."""
+        """
+        Get List of Available Album Data.
+        
+        Returns the album with only map related data.
+        """
         return self._session.post('Albums::getPositionData').json()
 
     def get_album(self, album_id: str) -> dict:
-        """Provided an albumID, returns the album."""
+        """
+        Get a Specific Album's Information.
+
+        Provided an albumID, returns the album.
+        """
         data = {'albumID': album_id}
         return self._session.post('Album::get', data=data).json()
 
     def get_public_album(self, album_id: str, password: str = 'rand') -> bool:
         """
-        Provided the albumID and passwords, return
-        whether the album can be accessed or not.
+        Get Public Album Information.
 
-        The API won't work if password if empty, even if no password.
+        Provided the albumID and passwords, return whether the album can be
+        accessed or not. The API won't work if password if empty, even if no
+        password.
         """
         data = {'albumID': album_id, 'password': password}
         return 'true' in self._session.post('Album::getPublic', data=data).text
@@ -139,9 +175,7 @@ class LycheeClient:
         return 'true' in self._session.post('Album::merge', data=data).text
 
     def move_albums(self, dest_id: str, source_ids: List[str]) -> bool:
-        """
-        Move albums into another one, which becomes their parent.
-        """
+        """Move albums into another one, which becomes their parent."""
         data = {'albumIDs': dest_id + ',' + ','.join(source_ids)}
         return 'true' in self._session.post('Album::move', data=data).text
 
@@ -159,7 +193,7 @@ class LycheeClient:
 
     def get_albums_archive(self, album_ids: List[str]) -> bytes:
         """
-        Returns a ZIP file of the pictures of the albums and their subalbums.
+        Get a ZIP file of the pictures of the albums and their subalbums.
 
         Archive is returned as bytes, you can open a file
         with wb mode and write to it.
