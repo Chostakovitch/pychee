@@ -19,7 +19,7 @@ To install `pychee` from GitHub:
 3. Open a terminal (command-prompt) and navigate to the new folder that's been unzipped.
    (*Hint:* Use `cd <the-path-to-the-folder-you-unzipped-in>/pychee`)
 4. Use `pip` or `python` to install with the following commands, respectively:
-    
+
     - `$> pip install .`
     - `$> python setup.py install`
 
@@ -30,7 +30,7 @@ To install `pychee` from GitHub:
 
 If you wish to use `pychee` as a standalone file in your Python project, you can
 simply download the `pychee.py` file from GitHub (you'll want
-[this file](https://github.com/engineerjoe440/pychee/blob/main/pychee/pychee.py)
+[this file](https://github.com/Chostakovitch/pychee/blob/main/pychee/pychee.py)
 exactly) and save it wherever you need it! Then, just `import pychee` and away
 you go!
 
@@ -58,5 +58,4 @@ pull-request.
 
 #### Source Repository
 
-- GitHub: https://github.com/engineerjoe440/pychee
-
+- GitHub: https://github.com/Chostakovitch/pychee
