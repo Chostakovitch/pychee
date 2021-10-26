@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
+"""
+# pychee
 
+Client for [Lychee](https://github.com/LycheeOrg/Lychee), written in Python.
+"""
 from posixpath import join
 from urllib.parse import unquote
 from typing import List
@@ -9,26 +13,33 @@ from requests import Session
 __version__ = 0.0
 
 class LycheeForbidden(Exception):
+    """Raised when the Lychee request returns 401: Forbidden."""
+
     pass
 
 class LycheeError(Exception):
+    """Raised for general Lychee errors."""
+
     pass
 
 class LycheeAPISession(Session):
     """
-    Wrapper around Session to set base API URL and
-    throw exception if request needs auth and user
-    is not logged in.
+    Lychee API Session Handler.
+
+    Wrapper around Session to set base API URL and throw exception if request
+    needs auth and user is not logged in.
     """
     UNAUTH_MESSAGES = [
         '"Warning: Album private!"',
     ]
 
     def __init__(self, prefix_url: str, *args, **kwargs):
+        """Initialize the `requests.session`."""
         super().__init__(*args, **kwargs)
         self._prefix_url = prefix_url
 
     def request(self, method, url, *args, **kwargs):
+        """Make an HTTP request with the configured session."""
         url = join(self._prefix_url, 'api', url)
         response = super().request(method, url, *args, **kwargs)
         if response.text in self.UNAUTH_MESSAGES:
@@ -38,6 +49,13 @@ class LycheeAPISession(Session):
         return response
 
 class LycheeClient:
+    """
+    Lychee API Client.
+    
+    The primary [Lychee API](https://lycheeorg.github.io/docs/api.html) client
+    to interact with the specified Lychee server.
+    """
+
     def __init__(self, url: str):
         """Initialize a new Lychee session for given URL with CSRF token."""
         self._session = LycheeAPISession(url)
@@ -46,12 +64,14 @@ class LycheeClient:
         self._session.headers.update({'X-XSRF-TOKEN': csrf_token})
 
     def login(self, username: str, password: str) -> bool:
+        """Log in to Lychee server."""
         auth = {'username': username, 'password': password}
         # Session takes care of setting cookies
         login_response = self._session.post('Session::login', data=auth)
         return 'true' in login_response.text
 
     def logout(self):
+        """Log out from Lychee server."""
         self._session.post('Session::logout')
         self._session.cookies.clear()
 
