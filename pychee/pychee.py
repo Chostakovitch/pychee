@@ -6,6 +6,8 @@ from urllib.parse import unquote
 from typing import List
 from requests import Session
 
+__version__ = 0.0
+
 class LycheeForbidden(Exception):
     pass
 
