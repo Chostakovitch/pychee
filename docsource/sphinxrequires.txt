@@ -1,0 +1,6 @@
+wheel
+sphinx
+numpydoc
+myst-parser
+sphinx-sitemap
+sphinx-git
