@@ -52,7 +52,7 @@ class LycheeAPISession(Session):
 class LycheeClient:
     """
     Lychee API Client.
-    
+
     The primary [Lychee API](https://lycheeorg.github.io/docs/api.html) client
     to interact with the specified Lychee server.
     """
@@ -87,7 +87,7 @@ class LycheeClient:
     def get_albums_position_data(self) -> dict:
         """
         Get List of Available Album Data.
-        
+
         Returns the album with only map related data.
         """
         return self._session.post('Albums::getPositionData').json()
@@ -202,3 +202,11 @@ class LycheeClient:
         # For large archives, maybe we would use
         # stream=True and iterate over chunks of answer.
         return self._session.get('Album::getArchive', params=data).content
+
+    """
+    Get frame mode settings.
+
+    For now, the only setting is the refresh time, in milliseconds.
+    """
+    def get_frame_settings(self) -> dict:
+        return self._session.post('Frame::getSettings').json()
