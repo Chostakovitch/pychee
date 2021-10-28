@@ -133,8 +133,20 @@ to interact with the specified Lychee server.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.add_album" title="pychee.pychee.LycheeClient.add_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_album</span></code></a>(title[, parent_id])</p></td>
 <td><p>Add a new Album with option parent.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.add_photo" title="pychee.pychee.LycheeClient.add_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_photo</span></code></a>(photo, photo_name, album_id)</p></td>
+<td><p>Upload a photo into an album.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.clear_photos_symlink" title="pychee.pychee.LycheeClient.clear_photos_symlink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_photos_symlink</span></code></a>()</p></td>
+<td><p>Remove all photo's symlinks, if activated.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.delete_album" title="pychee.pychee.LycheeClient.delete_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_album</span></code></a>(album_id)</p></td>
 <td><p>Delete the albums and all pictures in the album.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.delete_photo" title="pychee.pychee.LycheeClient.delete_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_photo</span></code></a>(photo_ids)</p></td>
+<td><p>Delete one or multiple photos.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.duplicate_photos" title="pychee.pychee.LycheeClient.duplicate_photos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate_photos</span></code></a>(photo_ids, album_id)</p></td>
+<td><p>Duplicate one or multiple photos into an album.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_album" title="pychee.pychee.LycheeClient.get_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_album</span></code></a>(album_id)</p></td>
 <td><p>Get a Specific Album's Information.</p></td>
@@ -148,32 +160,62 @@ to interact with the specified Lychee server.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_albums_position_data" title="pychee.pychee.LycheeClient.get_albums_position_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_albums_position_data</span></code></a>()</p></td>
 <td><p>Get List of Available Album Data.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_frame_settings" title="pychee.pychee.LycheeClient.get_frame_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_frame_settings</span></code></a>()</p></td>
+<td><p>Get frame mode settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_photos_archive" title="pychee.pychee.LycheeClient.get_photos_archive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_photos_archive</span></code></a>(photo_ids, kind)</p></td>
+<td><p>Get a photo or an archive of photos.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_public_album" title="pychee.pychee.LycheeClient.get_public_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_public_album</span></code></a>(album_id[, password])</p></td>
 <td><p>Get Public Album Information.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.login" title="pychee.pychee.LycheeClient.login"><code class="xref py py-obj docutils literal notranslate"><span class="pre">login</span></code></a>(username, password)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_random_photo" title="pychee.pychee.LycheeClient.get_random_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_random_photo</span></code></a>()</p></td>
+<td><p>Get a random photo with current auth.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.login" title="pychee.pychee.LycheeClient.login"><code class="xref py py-obj docutils literal notranslate"><span class="pre">login</span></code></a>(username, password)</p></td>
 <td><p>Log in to Lychee server.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.logout" title="pychee.pychee.LycheeClient.logout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logout</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.logout" title="pychee.pychee.LycheeClient.logout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logout</span></code></a>()</p></td>
 <td><p>Log out from Lychee server.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.merge_albums" title="pychee.pychee.LycheeClient.merge_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_albums</span></code></a>(dest_id, source_ids)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.merge_albums" title="pychee.pychee.LycheeClient.merge_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_albums</span></code></a>(dest_id, source_ids)</p></td>
 <td><p>Merge albums into one.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.move_albums" title="pychee.pychee.LycheeClient.move_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_albums</span></code></a>(dest_id, source_ids)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.move_albums" title="pychee.pychee.LycheeClient.move_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_albums</span></code></a>(dest_id, source_ids)</p></td>
 <td><p>Move albums into another one, which becomes their parent.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_description" title="pychee.pychee.LycheeClient.set_album_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_description</span></code></a>(album_id, description)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_description" title="pychee.pychee.LycheeClient.set_album_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_description</span></code></a>(album_id, description)</p></td>
 <td><p>Change the description of the album.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_licence" title="pychee.pychee.LycheeClient.set_album_licence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_licence</span></code></a>(album_id, license)</p></td>
-<td><p>Set the license of the Album.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_license" title="pychee.pychee.LycheeClient.set_album_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_license</span></code></a>(album_id, license)</p></td>
+<td><p>Set the license of an album.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_public" title="pychee.pychee.LycheeClient.set_album_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_public</span></code></a>(album_id, public, visible, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_public" title="pychee.pychee.LycheeClient.set_album_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_public</span></code></a>(album_id, public, visible, ...)</p></td>
 <td><p>Change the sharing properties of the album.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_albums_title" title="pychee.pychee.LycheeClient.set_albums_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_albums_title</span></code></a>(album_ids, title)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_albums_title" title="pychee.pychee.LycheeClient.set_albums_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_albums_title</span></code></a>(album_ids, title)</p></td>
 <td><p>Change the title of the albums.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_description" title="pychee.pychee.LycheeClient.set_photo_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_description</span></code></a>(photo_id, description)</p></td>
+<td><p>Set the description of one or multiple photos.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_license" title="pychee.pychee.LycheeClient.set_photo_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_license</span></code></a>(photo_id, license)</p></td>
+<td><p>Set the license of a photo.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_public" title="pychee.pychee.LycheeClient.set_photo_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_public</span></code></a>(photo_id)</p></td>
+<td><p>Toggle the public status of a photo.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_album" title="pychee.pychee.LycheeClient.set_photos_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_album</span></code></a>(photo_ids, album_id)</p></td>
+<td><p>Put one or multiple photos into an album</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_star" title="pychee.pychee.LycheeClient.set_photos_star"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_star</span></code></a>(photo_ids)</p></td>
+<td><p>Toggle the favorite status of one or multiple photos.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_tags" title="pychee.pychee.LycheeClient.set_photos_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_tags</span></code></a>(photo_ids, tags)</p></td>
+<td><p>Set tags for one or multiple photos.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_title" title="pychee.pychee.LycheeClient.set_photos_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_title</span></code></a>(photo_ids, title)</p></td>
+<td><p>Set the title of one or multiple photos.</p></td>
 </tr>
 </tbody>
 </table>
@@ -185,9 +227,37 @@ to interact with the specified Lychee server.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.add_photo">
+<span class="sig-name descname"><span class="pre">add_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">photo_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.add_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a photo into an album.</p>
+<p>photo should be open(‘/your/photo’, ‘rb’).read().</p>
+<p>Return the ID of the uploaded image</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.clear_photos_symlink">
+<span class="sig-name descname"><span class="pre">clear_photos_symlink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.clear_photos_symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all photo’s symlinks, if activated.</p>
+<p>Symlinks are disabled by default and allow to create expirable links to photos, preventing to guess the URL of the full sized photo.</p>
+<p>See [the documentation](<a class="reference external" href="https://lycheeorg.github.io/docs/settings.html#symbolic-link">https://lycheeorg.github.io/docs/settings.html#symbolic-link</a>).</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pychee.pychee.LycheeClient.delete_album">
 <span class="sig-name descname"><span class="pre">delete_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.delete_album" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete the albums and all pictures in the album.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.delete_photo">
+<span class="sig-name descname"><span class="pre">delete_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.delete_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete one or multiple photos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.duplicate_photos">
+<span class="sig-name descname"><span class="pre">duplicate_photos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.duplicate_photos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duplicate one or multiple photos into an album.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -209,7 +279,7 @@ to interact with the specified Lychee server.</p>
 <span class="sig-name descname"><span class="pre">get_albums_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_albums_archive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a ZIP file of the pictures of the albums and their subalbums.</p>
 <p>Archive is returned as bytes, you can open a file
-with wb mode and write to it.</p>
+with wb mode and write a file.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -220,12 +290,35 @@ with wb mode and write to it.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.get_frame_settings">
+<span class="sig-name descname"><span class="pre">get_frame_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_frame_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get frame mode settings.</p>
+<p>For now, the only setting returns the refresh time, in milliseconds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.get_photos_archive">
+<span class="sig-name descname"><span class="pre">get_photos_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_photos_archive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a photo or an archive of photos.</p>
+<p>Kind is one of the following : FULL, LIVEPHOTOVIDEO, MEDIUM2X, MEDIUM, SMALL2X, SMALL, THUMB2X, THUMB.</p>
+<p>If len(photo_ids) == 1, returns an image. Otherwise returns a ZIP archive.</p>
+<p>Content is returned as bytes, you can open a file
+with wb mode and write a file.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pychee.pychee.LycheeClient.get_public_album">
 <span class="sig-name descname"><span class="pre">get_public_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'rand'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_public_album" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Public Album Information.</p>
 <p>Provided the albumID and passwords, return whether the album can be
 accessed or not. The API won’t work if password if empty, even if no
 password.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.get_random_photo">
+<span class="sig-name descname"><span class="pre">get_random_photo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_random_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a random photo with current auth.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -261,9 +354,9 @@ it will be deleted. Don’t do this.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_album_licence">
-<span class="sig-name descname"><span class="pre">set_album_licence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">license</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_album_licence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the license of the Album.</p>
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_album_license">
+<span class="sig-name descname"><span class="pre">set_album_license</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">license</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_album_license" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the license of an album.</p>
 <p>See <a class="reference external" href="https://github.com/LycheeOrg/Lychee/blob/master/app/Assets/Helpers.php">https://github.com/LycheeOrg/Lychee/blob/master/app/Assets/Helpers.php</a>
 for authorized licenses (search get_all_licenses())</p>
 <p>Returns false if license name is unrecognized.</p>
@@ -280,6 +373,53 @@ for authorized licenses (search get_all_licenses())</p>
 <dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_albums_title">
 <span class="sig-name descname"><span class="pre">set_albums_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_albums_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the title of the albums.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photo_description">
+<span class="sig-name descname"><span class="pre">set_photo_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photo_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the description of one or multiple photos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photo_license">
+<span class="sig-name descname"><span class="pre">set_photo_license</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">license</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photo_license" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the license of a photo.</p>
+<p>See <a class="reference external" href="https://github.com/LycheeOrg/Lychee/blob/master/app/Assets/Helpers.php">https://github.com/LycheeOrg/Lychee/blob/master/app/Assets/Helpers.php</a>
+for authorized licenses (search get_all_licenses())</p>
+<p>Returns false if license name is unrecognized.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photo_public">
+<span class="sig-name descname"><span class="pre">set_photo_public</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photo_public" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the public status of a photo.</p>
+<p>A public photo will be unstarred, and vice versa.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photos_album">
+<span class="sig-name descname"><span class="pre">set_photos_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photos_album" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put one or multiple photos into an album</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photos_star">
+<span class="sig-name descname"><span class="pre">set_photos_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photos_star" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the favorite status of one or multiple photos.</p>
+<p>A starred photo will be unstarred, and vice versa.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photos_tags">
+<span class="sig-name descname"><span class="pre">set_photos_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photos_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set tags for one or multiple photos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.set_photos_title">
+<span class="sig-name descname"><span class="pre">set_photos_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.set_photos_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the title of one or multiple photos.</p>
 </dd></dl>
 
 </dd></dl>
