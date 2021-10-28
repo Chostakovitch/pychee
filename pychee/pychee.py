@@ -14,15 +14,12 @@ __version__ = 0.0
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
-    pass
 
 class LycheeNotFound(Exception):
     """Raised when the requested ressource was not found."""
-    pass
 
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
-    pass
 
 class LycheeAPISession(Session):
     """
@@ -252,7 +249,7 @@ class LycheeClient:
         return 'true' in self._session.post('Photo::setPublic', data=data).text
 
     def set_photos_album(self, photo_ids: List[str], album_id: str) -> bool:
-        """Put one or multiple photos into an album"""
+        """Put one or multiple photos into an album."""
         data = {'photoIDs': ','.join(photo_ids), 'albumID': album_id}
         return 'true' in self._session.post('Photo::setAlbum', data=data).text
 
@@ -267,7 +264,8 @@ class LycheeClient:
 
         photo should be open('/your/photo', 'rb').read().
 
-        Return the ID of the uploaded image"""
+        Return the ID of the uploaded image.
+        """
         data = {'albumID': album_id}
         files = {'0': (photo_name, photo)}
         return int(self._session.post('Photo::add', data=data, files=files).text)
