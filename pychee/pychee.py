@@ -315,3 +315,58 @@ class LycheeClient:
         See [the documentation](https://lycheeorg.github.io/docs/settings.html#symbolic-link).
         """
         return 'true' in self._session.get('Photo::clearSymLink').text
+
+    def shared_albums(self) -> dict:
+        """Get list of shared album."""
+        return self._session.post('Sharing::List').json()
+
+    def shared_users(self, album_ids: List[str]) -> dict:
+        """Get users with whom one or several albums are shared."""
+        data = {'albumIDs': ','.join(album_ids)}
+        return self._session.post('Sharing::ListUser', data=data).json()
+
+    def share_with_users(self, user_ids: List[str], album_ids: List[str]) -> bool:
+        """Share given albums with given users."""
+        data = {
+            'UserIDs': ','.join(user_ids),
+            'albumIDs': ','.join(album_ids)}
+        print(data)
+        return 'true' in self._session.post('Sharing::Add', data=data).text
+
+    def delete_shares(self, share_ids: List[str]) -> bool:
+        """
+        Delete given shares.
+
+        Share IDs can be found in the `id` field of
+        the `shared` array when calling shared_albums().
+        """
+        data = {'ShareIDs': ','.join(share_ids)}
+        return self._session.post('Sharing::Delete', data=data).json()
+
+    def change_login(self,
+                     old_username: str,
+                     old_password: str,
+                     new_username: str = '',
+                     new_password: str = '') -> bool:
+        """
+        Changes username or password.
+
+        If new_username of new_password is blank, it will stay the same.
+        """
+        if new_username == '':
+            new_username = old_username
+        if new_password == '':
+            new_password = old_password
+
+        data = {
+            'username': new_username,
+            'password': new_password,
+            'oldUsername': old_username,
+            'oldPassword': old_password
+        }
+        return 'true' in self._session.post('Settings::setLogin', data=data).text
+
+    def import_photo_from_url(self, url: str, album_id: str) -> bool:
+        """Imports a photo from URL into an album."""
+        data = {'url': url, 'albumID': album_id}
+        return 'true' in self._session.post('Import::url', data=data).text
