@@ -169,70 +169,73 @@ to interact with the specified Lychee server.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_frame_settings" title="pychee.pychee.LycheeClient.get_frame_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_frame_settings</span></code></a>()</p></td>
 <td><p>Get frame mode settings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_photos_archive" title="pychee.pychee.LycheeClient.get_photos_archive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_photos_archive</span></code></a>(photo_ids, kind)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_photo" title="pychee.pychee.LycheeClient.get_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_photo</span></code></a>(photo_id)</p></td>
+<td><p>Get information about a photo.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_photos_archive" title="pychee.pychee.LycheeClient.get_photos_archive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_photos_archive</span></code></a>(photo_ids, kind)</p></td>
 <td><p>Get a photo or an archive of photos.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_public_album" title="pychee.pychee.LycheeClient.get_public_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_public_album</span></code></a>(album_id[, password])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_public_album" title="pychee.pychee.LycheeClient.get_public_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_public_album</span></code></a>(album_id[, password])</p></td>
 <td><p>Get Public Album Information.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_random_photo" title="pychee.pychee.LycheeClient.get_random_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_random_photo</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.get_random_photo" title="pychee.pychee.LycheeClient.get_random_photo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_random_photo</span></code></a>()</p></td>
 <td><p>Get a random photo with current auth.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.import_photo_from_url" title="pychee.pychee.LycheeClient.import_photo_from_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_photo_from_url</span></code></a>(url, album_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.import_photo_from_url" title="pychee.pychee.LycheeClient.import_photo_from_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_photo_from_url</span></code></a>(url, album_id)</p></td>
 <td><p>Import a photo from URL into an album.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.login" title="pychee.pychee.LycheeClient.login"><code class="xref py py-obj docutils literal notranslate"><span class="pre">login</span></code></a>(username, password)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.login" title="pychee.pychee.LycheeClient.login"><code class="xref py py-obj docutils literal notranslate"><span class="pre">login</span></code></a>(username, password)</p></td>
 <td><p>Log in to Lychee server.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.logout" title="pychee.pychee.LycheeClient.logout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logout</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.logout" title="pychee.pychee.LycheeClient.logout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logout</span></code></a>()</p></td>
 <td><p>Log out from Lychee server.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.merge_albums" title="pychee.pychee.LycheeClient.merge_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_albums</span></code></a>(dest_id, source_ids)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.merge_albums" title="pychee.pychee.LycheeClient.merge_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_albums</span></code></a>(dest_id, source_ids)</p></td>
 <td><p>Merge albums into one.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.move_albums" title="pychee.pychee.LycheeClient.move_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_albums</span></code></a>(dest_id, source_ids)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.move_albums" title="pychee.pychee.LycheeClient.move_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_albums</span></code></a>(dest_id, source_ids)</p></td>
 <td><p>Move albums into another one, which becomes their parent.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_description" title="pychee.pychee.LycheeClient.set_album_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_description</span></code></a>(album_id, description)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_description" title="pychee.pychee.LycheeClient.set_album_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_description</span></code></a>(album_id, description)</p></td>
 <td><p>Change the description of the album.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_license" title="pychee.pychee.LycheeClient.set_album_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_license</span></code></a>(album_id, license)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_license" title="pychee.pychee.LycheeClient.set_album_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_license</span></code></a>(album_id, license)</p></td>
 <td><p>Set the license of an album.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_public" title="pychee.pychee.LycheeClient.set_album_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_public</span></code></a>(album_id, public, visible, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_album_public" title="pychee.pychee.LycheeClient.set_album_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_album_public</span></code></a>(album_id, public, visible, ...)</p></td>
 <td><p>Change the sharing properties of the album.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_albums_title" title="pychee.pychee.LycheeClient.set_albums_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_albums_title</span></code></a>(album_ids, title)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_albums_title" title="pychee.pychee.LycheeClient.set_albums_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_albums_title</span></code></a>(album_ids, title)</p></td>
 <td><p>Change the title of the albums.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_description" title="pychee.pychee.LycheeClient.set_photo_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_description</span></code></a>(photo_id, description)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_description" title="pychee.pychee.LycheeClient.set_photo_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_description</span></code></a>(photo_id, description)</p></td>
 <td><p>Set the description of one or multiple photos.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_license" title="pychee.pychee.LycheeClient.set_photo_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_license</span></code></a>(photo_id, license)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_license" title="pychee.pychee.LycheeClient.set_photo_license"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_license</span></code></a>(photo_id, license)</p></td>
 <td><p>Set the license of a photo.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_public" title="pychee.pychee.LycheeClient.set_photo_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_public</span></code></a>(photo_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photo_public" title="pychee.pychee.LycheeClient.set_photo_public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photo_public</span></code></a>(photo_id)</p></td>
 <td><p>Toggle the public status of a photo.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_album" title="pychee.pychee.LycheeClient.set_photos_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_album</span></code></a>(photo_ids, album_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_album" title="pychee.pychee.LycheeClient.set_photos_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_album</span></code></a>(photo_ids, album_id)</p></td>
 <td><p>Put one or multiple photos into an album.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_star" title="pychee.pychee.LycheeClient.set_photos_star"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_star</span></code></a>(photo_ids)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_star" title="pychee.pychee.LycheeClient.set_photos_star"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_star</span></code></a>(photo_ids)</p></td>
 <td><p>Toggle the favorite status of one or multiple photos.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_tags" title="pychee.pychee.LycheeClient.set_photos_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_tags</span></code></a>(photo_ids, tags)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_tags" title="pychee.pychee.LycheeClient.set_photos_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_tags</span></code></a>(photo_ids, tags)</p></td>
 <td><p>Set tags for one or multiple photos.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_title" title="pychee.pychee.LycheeClient.set_photos_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_title</span></code></a>(photo_ids, title)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.set_photos_title" title="pychee.pychee.LycheeClient.set_photos_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_photos_title</span></code></a>(photo_ids, title)</p></td>
 <td><p>Set the title of one or multiple photos.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.share_with_users" title="pychee.pychee.LycheeClient.share_with_users"><code class="xref py py-obj docutils literal notranslate"><span class="pre">share_with_users</span></code></a>(user_ids, album_ids)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.share_with_users" title="pychee.pychee.LycheeClient.share_with_users"><code class="xref py py-obj docutils literal notranslate"><span class="pre">share_with_users</span></code></a>(user_ids, album_ids)</p></td>
 <td><p>Share given albums with given users.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.shared_albums" title="pychee.pychee.LycheeClient.shared_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared_albums</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.shared_albums" title="pychee.pychee.LycheeClient.shared_albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared_albums</span></code></a>()</p></td>
 <td><p>Get list of shared album.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.shared_users" title="pychee.pychee.LycheeClient.shared_users"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared_users</span></code></a>(album_ids)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pychee.pychee.LycheeClient.shared_users" title="pychee.pychee.LycheeClient.shared_users"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared_users</span></code></a>(album_ids)</p></td>
 <td><p>Get users with whom one or several albums are shared.</p></td>
 </tr>
 </tbody>
@@ -327,6 +330,12 @@ with wb mode and write a file.</p>
 <span class="sig-name descname"><span class="pre">get_frame_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_frame_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get frame mode settings.</p>
 <p>For now, the only setting returns the refresh time, in milliseconds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pychee.pychee.LycheeClient.get_photo">
+<span class="sig-name descname"><span class="pre">get_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">photo_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pychee.pychee.LycheeClient.get_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about a photo.</p>
 </dd></dl>
 
 <dl class="py method">
