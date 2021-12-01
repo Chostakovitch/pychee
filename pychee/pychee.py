@@ -10,7 +10,7 @@ from urllib.parse import unquote
 from typing import List
 from requests import Session
 
-__version__ = 0.1
+__version__ = 0.2
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -215,6 +215,11 @@ class LycheeClient:
         For now, the only setting returns the refresh time, in milliseconds.
         """
         return self._session.post('Frame::getSettings').json()
+
+    def get_photo(self, photo_id) -> dict:
+        """Get information about a photo."""
+        data = {'photoID': photo_id}
+        return self._session.post('Photo::get', data=data).json()
 
     def get_random_photo(self) -> bytes:
         """Get a random photo with current auth."""
