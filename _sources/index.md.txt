@@ -7,8 +7,13 @@
 pychee
 ```
 
-
 ## Installation
+
+**From PyPi**
+
+```
+pip install pychee
+```
 
 **From GitHub as a Python Package**
 
@@ -34,17 +39,11 @@ simply download the `pychee.py` file from GitHub (you'll want
 exactly) and save it wherever you need it! Then, just `import pychee` and away
 you go!
 
+## License
 
-
-## Project Information
-
-For additional information related to this project, please refer to the links
-and materials linked below.
-
-#### License
 [AGPL-3.0](https://github.com/Chostakovitch/pychee/blob/main/LICENSE)
 
-### Contributing
+## Contributing
 
 Want to get involved? We'd love to have your help!
 
@@ -55,7 +54,6 @@ error, bug, or just have questions, jump over to the
 If you want to add features, or contribute yourself, feel free to open a
 pull-request.
 
-
-#### Source Repository
+## Source Repository
 
 - GitHub: https://github.com/Chostakovitch/pychee
