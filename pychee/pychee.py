@@ -10,7 +10,7 @@ from urllib.parse import unquote
 from typing import List
 from requests import Session
 
-__version__ = 0.0
+__version__ = 0.1
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -349,7 +349,7 @@ class LycheeClient:
                      new_username: str = '',
                      new_password: str = '') -> bool:
         """
-        Changes username or password.
+        Change username or password.
 
         If new_username of new_password is blank, it will stay the same.
         """
@@ -367,6 +367,6 @@ class LycheeClient:
         return 'true' in self._session.post('Settings::setLogin', data=data).text
 
     def import_photo_from_url(self, url: str, album_id: str) -> bool:
-        """Imports a photo from URL into an album."""
+        """Import a photo from URL into an album."""
         data = {'url': url, 'albumID': album_id}
         return 'true' in self._session.post('Import::url', data=data).text
