@@ -10,7 +10,7 @@ from urllib.parse import unquote
 from typing import List
 from requests import Session
 
-__version__ = 0.2
+__version__ = 0.1
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
