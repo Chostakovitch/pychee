@@ -15,7 +15,6 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="pychee: Client for Lychee, written in Python." href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,89 +33,6 @@
             
   <section id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pychee.pychee.LycheeAPISession">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pychee.pychee.</span></span><span class="sig-name descname"><span class="pre">LycheeAPISession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pychee.pychee.LycheeAPISession" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lychee API Session Handler.</p>
-<p>Wrapper around Session to set base API URL and throw exception if request
-needs auth and user is not logged in.</p>
-<p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code>()</p></td>
-<td><p>Closes all adapters and as such the session</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code>(url, **kwargs)</p></td>
-<td><p>Sends a DELETE request.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(url, **kwargs)</p></td>
-<td><p>Sends a GET request.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adapter</span></code>(url)</p></td>
-<td><p>Returns the appropriate connection adapter for the given URL.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_redirect_target</span></code>(resp)</p></td>
-<td><p>Receives a Response.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">head</span></code>(url, **kwargs)</p></td>
-<td><p>Sends a HEAD request.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_environment_settings</span></code>(url, proxies, ...)</p></td>
-<td><p>Check the environment and merge it with some settings.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mount</span></code>(prefix, adapter)</p></td>
-<td><p>Registers a connection adapter to a prefix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">options</span></code>(url, **kwargs)</p></td>
-<td><p>Sends a OPTIONS request.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">patch</span></code>(url[, data])</p></td>
-<td><p>Sends a PATCH request.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">post</span></code>(url[, data, json])</p></td>
-<td><p>Sends a POST request.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_request</span></code>(request)</p></td>
-<td><p>Constructs a <code class="xref py py-class docutils literal notranslate"><span class="pre">PreparedRequest</span></code> for transmission and returns it.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code>(url[, data])</p></td>
-<td><p>Sends a PUT request.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rebuild_auth</span></code>(prepared_request, response)</p></td>
-<td><p>When being redirected we may want to strip authentication from the request to avoid leaking credentials.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rebuild_method</span></code>(prepared_request, response)</p></td>
-<td><p>When being redirected we may want to change the method of the request based on certain specs or browser behavior.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rebuild_proxies</span></code>(prepared_request, proxies)</p></td>
-<td><p>This method re-evaluates the proxy configuration by considering the environment variables.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pychee.pychee.LycheeAPISession.request" title="pychee.pychee.LycheeAPISession.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request</span></code></a>(method, url, *args, **kwargs)</p></td>
-<td><p>Make an HTTP request with the configured session.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_redirects</span></code>(resp, req[, stream, ...])</p></td>
-<td><p>Receives a Response.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">send</span></code>(request, **kwargs)</p></td>
-<td><p>Send a given PreparedRequest.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">should_strip_auth</span></code>(old_url, new_url)</p></td>
-<td><p>Decide whether Authorization header should be removed when redirecting</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="pychee.pychee.LycheeAPISession.request">
-<span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pychee.pychee.LycheeAPISession.request" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make an HTTP request with the configured session.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="pychee.pychee.LycheeClient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pychee.pychee.</span></span><span class="sig-name descname"><span class="pre">LycheeClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pychee.pychee.LycheeClient" title="Permalink to this definition">¶</a></dt>
@@ -509,15 +425,11 @@ for authorized licenses (search get_all_licenses())</p>
 
 
 <h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a></li>
-</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">pychee: Client for Lychee, written in Python.</a></li>
   </ul></li>
 </ul>
 </div>
