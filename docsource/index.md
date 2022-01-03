@@ -1,37 +1,25 @@
 # pychee: Client for Lychee, written in Python.
 
-
-```{toctree}
-:maxdepth: 1
-
-pychee
-```
-
 ## Installation
 
-**From PyPi**
+### From PyPi
 
 ```
 pip install pychee
 ```
 
-**From GitHub as a Python Package**
+### From GitHub as a Python Package
 
 To install `pychee` from GitHub:
 
 1. Download the repository as a zipped package.
 2. Unzip the repository.
 3. Open a terminal (command-prompt) and navigate to the new folder that's been unzipped.
-   (*Hint:* Use `cd <the-path-to-the-folder-you-unzipped-in>/pychee`)
-4. Use `pip` or `python` to install with the following commands, respectively:
-
-    - `$> pip install .`
-    - `$> python setup.py install`
-
+4. Use `pip` or `python` to install with the following command : `pip install .`
 5. Verify that it's been installed by opening a Python instance and importing:
     `>>> import pychee` If no errors arise, the package has been installed.
 
-**From GitHub as a Standalone File**
+### From GitHub as a Standalone File
 
 If you wish to use `pychee` as a standalone file in your Python project, you can
 simply download the `pychee.py` file from GitHub (you'll want
