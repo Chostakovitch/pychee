@@ -3,7 +3,7 @@
 """
 # pychee: Client for Lychee, written in Python.
 
-For additonal information, visit: [Lychee](https://github.com/LycheeOrg/Lychee).
+For additonal information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
 from urllib.parse import unquote
