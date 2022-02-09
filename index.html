@@ -33,16 +33,33 @@
             
   <section class="tex2jax_ignore mathjax_ignore" id="pychee-client-for-lychee-written-in-python">
 <h1>pychee: Client for Lychee, written in Python.<a class="headerlink" href="#pychee-client-for-lychee-written-in-python" title="Permalink to this headline">¶</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="pychee">
+<h1>pychee<a class="headerlink" href="#pychee" title="Permalink to this headline">¶</a></h1>
+<p>Client for <a class="reference external" href="https://github.com/LycheeOrg/Lychee">Lychee</a>, written in Python.</p>
+<p>Lychee is a photo management system I’ve been using for years. I had the idea to make a « Lychee filesystem » with <a class="reference external" href="https://fr.wikipedia.org/wiki/Filesystem_in_Userspace">FUSE</a>, so I needed an API client.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<section id="from-pypi">
-<h3>From PyPi<a class="headerlink" href="#from-pypi" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pychee</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m pip install pychee
 </pre></div>
 </div>
 </section>
-<section id="from-github-as-a-python-package">
-<h3>From GitHub as a Python Package<a class="headerlink" href="#from-github-as-a-python-package" title="Permalink to this headline">¶</a></h3>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<p>My reference is <a class="reference external" href="https://lycheeorg.github.io/docs/api.html">this documentation</a>.
+The API is partially implemented and focused on photo management, <em>i.e.</em> only <code class="docutils literal notranslate"><span class="pre">Albums</span></code>, <code class="docutils literal notranslate"><span class="pre">Photo</span></code>, <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, <code class="docutils literal notranslate"><span class="pre">Sharing</span></code> and <code class="docutils literal notranslate"><span class="pre">Settings::setLogin</span></code>. Users can do whatever they want with their albums and photos and change their password.</p>
+<p>Disclaimer : I usually suck at coding, so use with caution and at your own risks.
+Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and should just work with the latest version.</p>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is automatically published there : https://chostakovitch.github.io/pychee/index.html</p>
+</section>
+<section id="api-documentation">
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://chostakovitch.github.io/pychee/pychee.html"><img alt="link_image" src="https://cdn1.iconfinder.com/data/icons/programming-37/32/03_Api_programming_code_gear_website-512.png" /></a></p>
+<section id="manually-install-from-github-as-a-python-package">
+<h3>Manually Install from GitHub as a Python Package<a class="headerlink" href="#manually-install-from-github-as-a-python-package" title="Permalink to this headline">¶</a></h3>
 <p>To install <code class="docutils literal notranslate"><span class="pre">pychee</span></code> from GitHub:</p>
 <ol class="arabic simple">
 <li><p>Download the repository as a zipped package.</p></li>
@@ -53,8 +70,8 @@
 <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">import</span> <span class="pre">pychee</span></code> If no errors arise, the package has been installed.</p></li>
 </ol>
 </section>
-<section id="from-github-as-a-standalone-file">
-<h3>From GitHub as a Standalone File<a class="headerlink" href="#from-github-as-a-standalone-file" title="Permalink to this headline">¶</a></h3>
+<section id="manually-install-from-github-as-a-standalone-file">
+<h3>Manually Install from GitHub as a Standalone File<a class="headerlink" href="#manually-install-from-github-as-a-standalone-file" title="Permalink to this headline">¶</a></h3>
 <p>If you wish to use <code class="docutils literal notranslate"><span class="pre">pychee</span></code> as a standalone file in your Python project, you can
 simply download the <code class="docutils literal notranslate"><span class="pre">pychee.py</span></code> file from GitHub (you’ll want
 <a class="reference external" href="https://github.com/Chostakovitch/pychee/blob/main/pychee/pychee.py">this file</a>
@@ -134,7 +151,7 @@ pull-request.</p>
       &copy;2021, Chostakovitch, engineerjoe440.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
