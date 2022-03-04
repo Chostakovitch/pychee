@@ -31,10 +31,10 @@
 
           <div class="body" role="main">
             
-  <section class="tex2jax_ignore mathjax_ignore" id="pychee-client-for-lychee-written-in-python">
+  <section id="pychee-client-for-lychee-written-in-python">
 <h1>pychee: Client for Lychee, written in Python.<a class="headerlink" href="#pychee-client-for-lychee-written-in-python" title="Permalink to this headline">¶</a></h1>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="pychee">
+<section id="pychee">
 <h1>pychee<a class="headerlink" href="#pychee" title="Permalink to this headline">¶</a></h1>
 <p>Client for <a class="reference external" href="https://github.com/LycheeOrg/Lychee">Lychee</a>, written in Python.</p>
 <p>Lychee is a photo management system I’ve been using for years. I had the idea to make a « Lychee filesystem » with <a class="reference external" href="https://fr.wikipedia.org/wiki/Filesystem_in_Userspace">FUSE</a>, so I needed an API client.</p>
@@ -50,6 +50,43 @@
 The API is partially implemented and focused on photo management, <em>i.e.</em> only <code class="docutils literal notranslate"><span class="pre">Albums</span></code>, <code class="docutils literal notranslate"><span class="pre">Photo</span></code>, <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, <code class="docutils literal notranslate"><span class="pre">Sharing</span></code> and <code class="docutils literal notranslate"><span class="pre">Settings::setLogin</span></code>. Users can do whatever they want with their albums and photos and change their password.</p>
 <p>Disclaimer : I usually suck at coding, so use with caution and at your own risks.
 Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and should just work with the latest version.</p>
+</section>
+<section id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>A sample a common API calls :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># coding=utf-8</span>
+<span class="kn">import</span> <span class="nn">pychee</span>
+
+<span class="c1"># Initialize instance</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">pychee</span><span class="o">.</span><span class="n">LycheeClient</span><span class="p">(</span><span class="s1">&#39;https://pic.chosto.me&#39;</span><span class="p">)</span>
+
+<span class="c1"># Login</span>
+<span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;Chosto&#39;</span><span class="p">,</span> <span class="s1">&#39;rbLQczeNtV0XjbDSFBtzyK6nH&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a new album</span>
+<span class="n">album_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_album</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add a photo in the created album</span>
+<span class="n">path_to_your_photo</span> <span class="o">=</span> <span class="s1">&#39;/your/path/photo.jpg&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_your_photo</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">photo_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_photo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;photo.jpg&#39;</span><span class="p">,</span> <span class="n">album_id</span><span class="p">)</span>
+
+<span class="c1"># Set uploaded photo public</span>
+<span class="n">client</span><span class="o">.</span><span class="n">set_photo_public</span><span class="p">(</span><span class="n">photo_id</span><span class="p">)</span>
+
+<span class="c1"># Set licence of uploaded photo</span>
+<span class="n">client</span><span class="o">.</span><span class="n">set_photo_license</span><span class="p">(</span><span class="n">photo_id</span><span class="p">,</span> <span class="s1">&#39;CC0&#39;</span><span class="p">)</span>
+
+<span class="c1"># Download an archive of the created album</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/photos.zip&#39;</span>
+<span class="k">with</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_albums_archive</span><span class="p">([</span><span class="nb">id</span><span class="p">]))</span>
+
+<span class="c1"># Logout</span>
+<span class="n">client</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
