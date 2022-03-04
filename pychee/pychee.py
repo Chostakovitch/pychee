@@ -10,7 +10,7 @@ from urllib.parse import unquote
 from typing import List
 from requests import Session
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -117,14 +117,16 @@ class LycheeClient:
         data = {'albumID': album_id, 'password': password}
         return 'true' in self._session.post('Album::getPublic', data=data).text
 
-    def add_album(self, title: str, parent_id: str = "0") -> bool:
+    def add_album(self, title: str, parent_id: str = "0") -> str:
         """
-        Add a new Album with option parent.
+        Add a new Album with optional parent.
 
         API won't work with empty parent_id, use 0 as in webapp for no parent.
+
+        Return the ID of the new image.
         """
         data = {'title': title, 'parent_id': parent_id}
-        return 'true' in self._session.post('Album::add', data=data).text
+        return self._session.post('Album::add', data=data).text
 
     def set_albums_title(self, album_ids: List[str], title: str) -> bool:
         """Change the title of the albums."""
@@ -263,7 +265,7 @@ class LycheeClient:
         data = {'photoIDs': ','.join(photo_ids), 'tags': ','.join(tags)}
         return 'true' in self._session.post('Photo::setTags', data=data).text
 
-    def add_photo(self, photo: bytes, photo_name: str, album_id: str) -> int:
+    def add_photo(self, photo: bytes, photo_name: str, album_id: str) -> str:
         """
         Upload a photo into an album.
 
@@ -273,7 +275,7 @@ class LycheeClient:
         """
         data = {'albumID': album_id}
         files = {'0': (photo_name, photo)}
-        return int(self._session.post('Photo::add', data=data, files=files).text)
+        return self._session.post('Photo::add', data=data, files=files).text
 
     def delete_photo(self, photo_ids: List[str]) -> bool:
         """Delete one or multiple photos."""
@@ -335,7 +337,6 @@ class LycheeClient:
         data = {
             'UserIDs': ','.join(user_ids),
             'albumIDs': ','.join(album_ids)}
-        print(data)
         return 'true' in self._session.post('Sharing::Add', data=data).text
 
     def delete_shares(self, share_ids: List[str]) -> bool:
