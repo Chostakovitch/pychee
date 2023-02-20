@@ -6,11 +6,11 @@
 For additonal information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
-from urllib.parse import unquote
 from typing import List
 from requests import Session
+from urllib.parse import unquote
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -21,6 +21,9 @@ class LycheeNotFound(Exception):
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
 
+#FIXME add error code handling
+#FIXME adjust to API sending JSON because we changed Accept
+#FIXME fix type hints...
 class LycheeAPISession(Session):
     """
     Lychee API Session Handler.
@@ -37,15 +40,30 @@ class LycheeAPISession(Session):
     NOT_FOUND_MESSAGES = [
         '"Error: no pictures found!"'
     ]
+
+    # CSRF-related field names
+    _CSRF_HEADER = "X-XSRF-TOKEN"
+    _CSRF_COOKIE = "XSRF-TOKEN"
+
+    BASE_API_FRAGMENT = "api"
+
     def __init__(self, prefix_url: str, *args, **kwargs):
         """Initialize the `requests.session`."""
         super().__init__(*args, **kwargs)
         self._prefix_url = prefix_url
+        # Initial CSRF
+        super().request('GET', self._prefix_url)
+        self._set_csrf_header()
+        # Lychee now explicitely requires client to accept JSON,
+        # else throws exception
+        self.headers['Accept'] = 'application/json, text/javascript, */*; q=0.01'
 
     def request(self, method, url, *args, **kwargs):
         """Make an HTTP request with the configured session."""
-        url = join(self._prefix_url, 'api', url)
+        url = join(self._prefix_url, self.BASE_API_FRAGMENT, url)
         response = super().request(method, url, *args, **kwargs)
+        self._set_csrf_header()
+        # Update CSRF header if changed
         if response.text in self.FORBID_MESSAGES:
             raise LycheeForbidden(response.text)
         if response.text in self.NOT_FOUND_MESSAGES:
@@ -53,6 +71,21 @@ class LycheeAPISession(Session):
         if response.text == 'false' or response.text is None:
             raise LycheeError('Could be unauthorized, wrong args, who knows?')
         return response
+
+    def _set_csrf_header(self) -> None:
+        """
+        Sets CSRF header from cookie for the whole session.
+
+        CSRF generally prevents an attacker from forging a request
+        sent from another website, e.g. in a JS script, by forcing
+        requests to contain a specific value which has been set
+        as a cookie in a previous GET request.
+
+        Thus, a previous GET request is needed so this method works.
+        """
+        if (csrf_token := self.cookies.get(self._CSRF_COOKIE)) is not None:
+            if csrf_token != self.headers.get(self._CSRF_HEADER):
+                self.headers[self._CSRF_HEADER] = unquote(csrf_token).replace('=', '')
 
 class LycheeClient:
     """
@@ -63,22 +96,19 @@ class LycheeClient:
     """
 
     def __init__(self, url: str):
-        """Initialize a new Lychee session for given URL with CSRF token."""
+        """Initialize a new Lychee session for given URL."""
         self._session = LycheeAPISession(url)
-        init_response = self._session.post('Session::init')
-        csrf_token = unquote(init_response.cookies['XSRF-TOKEN'])
-        self._session.headers.update({'X-XSRF-TOKEN': csrf_token})
+        self._session.post('Session::init', json={})
 
-    def login(self, username: str, password: str) -> bool:
+    def login(self, username: str, password: str) -> None:
         """Log in to Lychee server."""
         auth = {'username': username, 'password': password}
         # Session takes care of setting cookies
-        login_response = self._session.post('Session::login', data=auth)
-        return 'true' in login_response.text
+        login_response = self._session.post('Session::login', json=auth)
 
     def logout(self):
         """Log out from Lychee server."""
-        self._session.post('Session::logout')
+        self._session.post('Session::logout', json={})
         self._session.cookies.clear()
 
     def get_albums(self) -> dict:
@@ -87,7 +117,7 @@ class LycheeClient:
 
         Returns an array of albums or false on failure.
         """
-        return self._session.post('Albums::get').json()
+        return self._session.post('Albums::get', json={}).json()
 
     def get_albums_position_data(self) -> dict:
         """
@@ -95,7 +125,7 @@ class LycheeClient:
 
         Returns the album with only map related data.
         """
-        return self._session.post('Albums::getPositionData').json()
+        return self._session.post('Albums::getPositionData', json={}).json()
 
     def get_album(self, album_id: str) -> dict:
         """
@@ -104,9 +134,9 @@ class LycheeClient:
         Provided an albumID, returns the album.
         """
         data = {'albumID': album_id}
-        return self._session.post('Album::get', data=data).json()
+        return self._session.post('Album::get', json=data).json()
 
-    def get_public_album(self, album_id: str, password: str = 'rand') -> bool:
+    def get_public_album(self, album_id: str, password: str = 'rand'):
         """
         Get Public Album Information.
 
@@ -115,9 +145,9 @@ class LycheeClient:
         password.
         """
         data = {'albumID': album_id, 'password': password}
-        return 'true' in self._session.post('Album::getPublic', data=data).text
+        self._session.post('Album::getPublic', json=data)
 
-    def add_album(self, title: str, parent_id: str = "0") -> str:
+    def add_album(self, title: str, parent_id: str = None) -> str:
         """
         Add a new Album with optional parent.
 
@@ -126,17 +156,17 @@ class LycheeClient:
         Return the ID of the new image.
         """
         data = {'title': title, 'parent_id': parent_id}
-        return self._session.post('Album::add', data=data).text
+        return self._session.post('Album::add', json=data).json()
 
-    def set_albums_title(self, album_ids: List[str], title: str) -> bool:
+    def set_albums_title(self, album_ids: List[str], title: str):
         """Change the title of the albums."""
         data = {'albumIDs': ','.join(album_ids), 'title': title}
-        return 'true' in self._session.post('Album::setTitle', data=data).text
+        self._session.post('Album::setTitle', json=data)
 
-    def set_album_description(self, album_id: str, description: str) -> bool:
+    def set_album_description(self, album_id: str, description: str):
         """Change the description of the album."""
         data = {'albumID': album_id, 'description': description}
-        return 'true' in self._session.post('Album::setDescription', data=data).text
+        self._session.post('Album::setDescription', json=data)
 
     def set_album_public(
         self,
@@ -148,7 +178,7 @@ class LycheeClient:
         share_button_visible: int,
         full_photo: int,
         password: str = ""
-    ) -> bool:
+    ):
         """
         Change the sharing properties of the album.
 
@@ -164,14 +194,14 @@ class LycheeClient:
             'full_photo': full_photo,
             'password': password
         }
-        return 'true' in self._session.post('Album::setPublic', data=data).text
+        self._session.post('Album::setPublic', json=data)
 
-    def delete_album(self, album_id: List[str]) -> bool:
+    def delete_album(self, album_id: List[str]):
         """Delete the albums and all pictures in the album."""
         data = {'albumIDs': album_id}
-        return 'true' in self._session.post('Album::delete', data=data).text
+        self._session.post('Album::delete', json=data)
 
-    def merge_albums(self, dest_id: str, source_ids: List[str]) -> bool:
+    def merge_albums(self, dest_id: str, source_ids: List[str]):
         """
         Merge albums into one.
 
@@ -179,14 +209,14 @@ class LycheeClient:
         it will be deleted. Don't do this.
         """
         data = {'albumIDs': dest_id + ',' + ','.join(source_ids)}
-        return 'true' in self._session.post('Album::merge', data=data).text
+        self._session.post('Album::merge', json=data)
 
-    def move_albums(self, dest_id: str, source_ids: List[str]) -> bool:
+    def move_albums(self, dest_id: str, source_ids: List[str]):
         """Move albums into another one, which becomes their parent."""
         data = {'albumIDs': dest_id + ',' + ','.join(source_ids)}
-        return 'true' in self._session.post('Album::move', data=data).text
+        self._session.post('Album::move', json=data)
 
-    def set_album_license(self, album_id: str, license: str) -> bool:
+    def set_album_license(self, album_id: str, license: str):
         """
         Set the license of an album.
 
@@ -196,7 +226,7 @@ class LycheeClient:
         Returns false if license name is unrecognized.
         """
         data = {'albumID': album_id, 'license': license}
-        return 'true' in self._session.post('Album::setLicense', data=data).text
+        self._session.post('Album::setLicense', json=data)
 
     def get_albums_archive(self, album_ids: List[str]) -> bytes:
         """
@@ -216,54 +246,54 @@ class LycheeClient:
 
         For now, the only setting returns the refresh time, in milliseconds.
         """
-        return self._session.post('Frame::getSettings').json()
+        return self._session.post('Frame::getSettings', json={}).json()
 
     def get_photo(self, photo_id) -> dict:
         """Get information about a photo."""
         data = {'photoID': photo_id}
-        return self._session.post('Photo::get', data=data).json()
+        return self._session.post('Photo::get', json=data).json()
 
     def get_random_photo(self) -> bytes:
         """Get a random photo with current auth."""
-        return self._session.post('Photo::getRandom').content
+        return self._session.post('Photo::getRandom', json={}).content
 
-    def set_photos_title(self, photo_ids: List[str], title: str) -> bool:
+    def set_photos_title(self, photo_ids: List[str], title: str):
         """Set the title of one or multiple photos."""
         data = {'photoIDs': ','.join(photo_ids), 'title': title}
-        return 'true' in self._session.post('Photo::setTitle', data=data).text
+        self._session.post('Photo::setTitle', json=data)
 
-    def set_photo_description(self, photo_id: str, description: str) -> bool:
+    def set_photo_description(self, photo_id: str, description: str):
         """Set the description of one or multiple photos."""
         data = {'photoID': photo_id, 'description': description}
-        return 'true' in self._session.post('Photo::setDescription', data=data).text
+        self._session.post('Photo::setDescription', json=data)
 
-    def set_photos_star(self, photo_ids: List[str]) -> bool:
+    def set_photos_star(self, photo_ids: List[str]):
         """
         Toggle the favorite status of one or multiple photos.
 
         A starred photo will be unstarred, and vice versa.
         """
         data = {'photoIDs': ','.join(photo_ids)}
-        return 'true' in self._session.post('Photo::setStar', data=data).text
+        self._session.post('Photo::setStar', json=data)
 
-    def set_photo_public(self, photo_id: str) -> bool:
+    def set_photo_public(self, photo_id: str):
         """
         Toggle the public status of a photo.
 
         A public photo will be unstarred, and vice versa.
         """
         data = {'photoID': photo_id}
-        return 'true' in self._session.post('Photo::setPublic', data=data).text
+        self._session.post('Photo::setPublic', json=data)
 
-    def set_photos_album(self, photo_ids: List[str], album_id: str) -> bool:
+    def set_photos_album(self, photo_ids: List[str], album_id: str):
         """Put one or multiple photos into an album."""
         data = {'photoIDs': ','.join(photo_ids), 'albumID': album_id}
-        return 'true' in self._session.post('Photo::setAlbum', data=data).text
+        self._session.post('Photo::setAlbum', json=data)
 
-    def set_photos_tags(self, photo_ids: List[str], tags: List[str]) -> bool:
+    def set_photos_tags(self, photo_ids: List[str], tags: List[str]):
         """Set tags for one or multiple photos."""
         data = {'photoIDs': ','.join(photo_ids), 'tags': ','.join(tags)}
-        return 'true' in self._session.post('Photo::setTags', data=data).text
+        self._session.post('Photo::setTags', json=data)
 
     def add_photo(self, photo: bytes, photo_name: str, album_id: str) -> str:
         """
@@ -274,20 +304,23 @@ class LycheeClient:
         Return the ID of the uploaded image.
         """
         data = {'albumID': album_id}
-        files = {'0': (photo_name, photo)}
-        return self._session.post('Photo::add', data=data, files=files).text
+        # Lychee expects a multipart/form-data with a field called name and being `file`,
+        # which contradicts with API doc for now
+        # See syntax there : https://stackoverflow.com/a/12385661
+        files = {'file': (photo_name, photo)}
+        return self._session.post('Photo::add', data=data, files=files).json()
 
-    def delete_photo(self, photo_ids: List[str]) -> bool:
+    def delete_photo(self, photo_ids: List[str]):
         """Delete one or multiple photos."""
         data = {'photoIDs': ','.join(photo_ids)}
-        return 'true' in self._session.post('Photo::delete', data=data).text
+        self._session.post('Photo::delete', json=data)
 
-    def duplicate_photos(self, photo_ids: List[str], album_id: str) -> bool:
+    def duplicate_photos(self, photo_ids: List[str], album_id: str):
         """Duplicate one or multiple photos into an album."""
         data = {'photoIDs': ','.join(photo_ids), 'albumID': album_id}
-        return 'true' in self._session.post('Photo::duplicate', data=data).text
+        self._session.post('Photo::duplicate', json=data)
 
-    def set_photo_license(self, photo_id: str, license: str) -> bool:
+    def set_photo_license(self, photo_id: str, license: str):
         """
         Set the license of a photo.
 
@@ -297,7 +330,7 @@ class LycheeClient:
         Returns false if license name is unrecognized.
         """
         data = {'photoID': photo_id, 'license': license}
-        return 'true' in self._session.post('Photo::setLicense', data=data).text
+        self._session.post('Photo::setLicense', json=data)
 
     def get_photos_archive(self, photo_ids: List[str], kind: str) -> bytes:
         """
@@ -313,7 +346,7 @@ class LycheeClient:
         data = {'photoIDs': ','.join(photo_ids), 'kind': kind}
         return self._session.get('Photo::getArchive', params=data).content
 
-    def clear_photos_symlink(self) -> bool:
+    def clear_photos_symlink(self):
         """
         Remove all photo's symlinks, if activated.
 
@@ -321,25 +354,25 @@ class LycheeClient:
 
         See [the documentation](https://lycheeorg.github.io/docs/settings.html#symbolic-link).
         """
-        return 'true' in self._session.get('Photo::clearSymLink').text
+        self._session.get('Photo::clearSymLink')
 
     def shared_albums(self) -> dict:
         """Get list of shared album."""
-        return self._session.post('Sharing::List').json()
+        return self._session.post('Sharing::List', json={}).json()
 
     def shared_users(self, album_ids: List[str]) -> dict:
         """Get users with whom one or several albums are shared."""
         data = {'albumIDs': ','.join(album_ids)}
-        return self._session.post('Sharing::ListUser', data=data).json()
+        return self._session.post('Sharing::ListUser', json=data).json()
 
-    def share_with_users(self, user_ids: List[str], album_ids: List[str]) -> bool:
+    def share_with_users(self, user_ids: List[str], album_ids: List[str]):
         """Share given albums with given users."""
         data = {
             'UserIDs': ','.join(user_ids),
             'albumIDs': ','.join(album_ids)}
-        return 'true' in self._session.post('Sharing::Add', data=data).text
+        self._session.post('Sharing::Add', json=data)
 
-    def delete_shares(self, share_ids: List[str]) -> bool:
+    def delete_shares(self, share_ids: List[str]):
         """
         Delete given shares.
 
@@ -347,13 +380,13 @@ class LycheeClient:
         the `shared` array when calling shared_albums().
         """
         data = {'ShareIDs': ','.join(share_ids)}
-        return self._session.post('Sharing::Delete', data=data).json()
+        return self._session.post('Sharing::Delete', json=data).json()
 
     def change_login(self,
                      old_username: str,
                      old_password: str,
                      new_username: str = '',
-                     new_password: str = '') -> bool:
+                     new_password: str = ''):
         """
         Change username or password.
 
@@ -370,9 +403,9 @@ class LycheeClient:
             'oldUsername': old_username,
             'oldPassword': old_password
         }
-        return 'true' in self._session.post('Settings::setLogin', data=data).text
+        self._session.post('Settings::setLogin', json=data)
 
-    def import_photo_from_url(self, url: str, album_id: str) -> bool:
+    def import_photo_from_url(self, url: str, album_id: str):
         """Import a photo from URL into an album."""
         data = {'url': url, 'albumID': album_id}
-        return 'true' in self._session.post('Import::url', data=data).text
+        self._session.post('Import::url', json=data)
