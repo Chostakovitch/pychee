@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>pychee: Client for Lychee, written in Python. &#8212; pychee  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,7 +12,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -32,27 +34,34 @@
           <div class="body" role="main">
             
   <section id="pychee-client-for-lychee-written-in-python">
-<h1>pychee: Client for Lychee, written in Python.<a class="headerlink" href="#pychee-client-for-lychee-written-in-python" title="Permalink to this headline">¶</a></h1>
+<h1>pychee: Client for Lychee, written in Python.<a class="headerlink" href="#pychee-client-for-lychee-written-in-python" title="Permalink to this heading">¶</a></h1>
 </section>
 <section id="pychee">
-<h1>pychee<a class="headerlink" href="#pychee" title="Permalink to this headline">¶</a></h1>
+<h1>pychee<a class="headerlink" href="#pychee" title="Permalink to this heading">¶</a></h1>
 <p>Client for <a class="reference external" href="https://github.com/LycheeOrg/Lychee">Lychee</a>, written in Python.</p>
 <p>Lychee is a photo management system I’ve been using for years. I had the idea to make a « Lychee filesystem » with <a class="reference external" href="https://fr.wikipedia.org/wiki/Filesystem_in_Userspace">FUSE</a>, so I needed an API client.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m pip install pychee
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pychee
 </pre></div>
 </div>
 </section>
 <section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h2>
 <p>My reference is <a class="reference external" href="https://lycheeorg.github.io/docs/api.html">this documentation</a>.
 The API is partially implemented and focused on photo management, <em>i.e.</em> only <code class="docutils literal notranslate"><span class="pre">Albums</span></code>, <code class="docutils literal notranslate"><span class="pre">Photo</span></code>, <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, <code class="docutils literal notranslate"><span class="pre">Sharing</span></code> and <code class="docutils literal notranslate"><span class="pre">Settings::setLogin</span></code>. Users can do whatever they want with their albums and photos and change their password.</p>
 <p>Disclaimer : I usually suck at coding, so use with caution and at your own risks.
-Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and should just work with the latest version.</p>
+Tested with Lychee v4.7.0. The code probably won’t be retrocompatible and should just work with the latest version.</p>
+</section>
+<section id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this heading">¶</a></h2>
+<p>Add tests</p>
 </section>
 <section id="example-usage">
-<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><p>⚠️ <code class="docutils literal notranslate"><span class="pre">pychee</span></code> returns exactly what the API sends back, just parsing it to <code class="docutils literal notranslate"><span class="pre">dict</span></code> if necessary. As sample answers are not documented in the API and because answers tend to change over time, you should inspect requests in browser if your client code does not works anymore.</p>
+</div></blockquote>
 <p>A sample of common API calls :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># coding=utf-8</span>
@@ -66,12 +75,12 @@ Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and shou
 
 <span class="c1"># Create a new album</span>
 <span class="n">album_name</span> <span class="o">=</span> <span class="s1">&#39;test_name&#39;</span>
-<span class="n">album_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_album</span><span class="p">(</span><span class="n">album_name</span><span class="p">)</span>
+<span class="n">album_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_album</span><span class="p">(</span><span class="n">album_name</span><span class="p">)[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
 
 <span class="c1"># Add a photo in the created album</span>
 <span class="n">path_to_your_photo</span> <span class="o">=</span> <span class="s1">&#39;/your/path/photo.jpg&#39;</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_your_photo</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">photo_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_photo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;photo.jpg&#39;</span><span class="p">,</span> <span class="n">album_id</span><span class="p">)</span>
+    <span class="n">photo_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_photo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;photo.jpg&#39;</span><span class="p">,</span> <span class="n">album_id</span><span class="p">)[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
 
 <span class="c1"># Set uploaded photo public</span>
 <span class="n">client</span><span class="o">.</span><span class="n">set_photo_public</span><span class="p">(</span><span class="n">photo_id</span><span class="p">)</span>
@@ -82,7 +91,7 @@ Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and shou
 <span class="c1"># Download an archive of the created album</span>
 <span class="n">output_path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/photos.zip&#39;</span>
 <span class="k">with</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_albums_archive</span><span class="p">([</span><span class="nb">id</span><span class="p">]))</span>
+     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_albums_archive</span><span class="p">([</span><span class="n">album_id</span><span class="p">]))</span>
 
 <span class="c1"># Logout</span>
 <span class="n">client</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
@@ -90,14 +99,14 @@ Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and shou
 </div>
 </section>
 <section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>
 <p>Documentation is automatically published there : https://chostakovitch.github.io/pychee/index.html</p>
 </section>
 <section id="api-documentation">
-<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="https://chostakovitch.github.io/pychee/pychee.html"><img alt="link_image" src="https://cdn1.iconfinder.com/data/icons/programming-37/32/03_Api_programming_code_gear_website-512.png" /></a></p>
 <section id="manually-install-from-github-as-a-python-package">
-<h3>Manually Install from GitHub as a Python Package<a class="headerlink" href="#manually-install-from-github-as-a-python-package" title="Permalink to this headline">¶</a></h3>
+<h3>Manually Install from GitHub as a Python Package<a class="headerlink" href="#manually-install-from-github-as-a-python-package" title="Permalink to this heading">¶</a></h3>
 <p>To install <code class="docutils literal notranslate"><span class="pre">pychee</span></code> from GitHub:</p>
 <ol class="arabic simple">
 <li><p>Download the repository as a zipped package.</p></li>
@@ -109,7 +118,7 @@ Tested with Lychee v4.3.4. The code probably won’t be retrocompatible and shou
 </ol>
 </section>
 <section id="manually-install-from-github-as-a-standalone-file">
-<h3>Manually Install from GitHub as a Standalone File<a class="headerlink" href="#manually-install-from-github-as-a-standalone-file" title="Permalink to this headline">¶</a></h3>
+<h3>Manually Install from GitHub as a Standalone File<a class="headerlink" href="#manually-install-from-github-as-a-standalone-file" title="Permalink to this heading">¶</a></h3>
 <p>If you wish to use <code class="docutils literal notranslate"><span class="pre">pychee</span></code> as a standalone file in your Python project, you can
 simply download the <code class="docutils literal notranslate"><span class="pre">pychee.py</span></code> file from GitHub (you’ll want
 <a class="reference external" href="https://github.com/Chostakovitch/pychee/blob/main/pychee/pychee.py">this file</a>
@@ -118,11 +127,11 @@ you go!</p>
 </section>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Chostakovitch/pychee/blob/main/LICENSE">AGPL-3.0</a></p>
 </section>
 <section id="contributing">
-<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">¶</a></h2>
 <p>Want to get involved? We’d love to have your help!</p>
 <p>Please help us by identifying any issues that you come across. If you find an
 error, bug, or just have questions, jump over to the
@@ -131,7 +140,7 @@ error, bug, or just have questions, jump over to the
 pull-request.</p>
 </section>
 <section id="source-repository">
-<h2>Source Repository<a class="headerlink" href="#source-repository" title="Permalink to this headline">¶</a></h2>
+<h2>Source Repository<a class="headerlink" href="#source-repository" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>GitHub: https://github.com/Chostakovitch/pychee</p></li>
 </ul>
@@ -172,7 +181,7 @@ pull-request.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -189,8 +198,8 @@ pull-request.</p>
       &copy;2021, Chostakovitch, engineerjoe440.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/index.md.txt"
