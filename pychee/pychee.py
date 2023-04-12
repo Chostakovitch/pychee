@@ -10,7 +10,7 @@ from typing import List
 from requests import Session
 from urllib.parse import unquote
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -83,7 +83,8 @@ class LycheeAPISession(Session):
 
         Thus, a previous GET request is needed so this method works.
         """
-        if (csrf_token := self.cookies.get(self._CSRF_COOKIE)) is not None:
+        csrf_token = self.cookies.get(self._CSRF_COOKIE)
+        if csrf_token is not None:
             if csrf_token != self.headers.get(self._CSRF_HEADER):
                 self.headers[self._CSRF_HEADER] = unquote(csrf_token).replace('=', '')
 
