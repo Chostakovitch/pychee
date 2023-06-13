@@ -75,7 +75,7 @@ class LycheeAPISession(Session):
 
     def _set_csrf_header(self) -> None:
         """
-        Sets CSRF header from cookie for the whole session.
+        Set CSRF header from cookie for the whole session.
 
         CSRF generally prevents an attacker from forging a request
         sent from another website, e.g. in a JS script, by forcing
@@ -87,7 +87,9 @@ class LycheeAPISession(Session):
         csrf_token = self.cookies.get(self._CSRF_COOKIE)
         if csrf_token is not None:
             if csrf_token != self.headers.get(self._CSRF_HEADER):
-                self.headers[self._CSRF_HEADER] = unquote(csrf_token).replace('=', '')
+                self.headers[self._CSRF_HEADER] = unquote(
+                    csrf_token
+                ).replace('=', '')
 
 class LycheeClient:
     """
@@ -120,6 +122,15 @@ class LycheeClient:
         Returns an array of albums or false on failure.
         """
         return self._session.post('Albums::get', json={}).json()
+
+    def get_albums_tree(self):
+        """
+        Get List of Album Trees in Lychee.
+
+        Returns a list of albums dictionaries or an informative message on
+        failure.
+        """
+        return self._session.post('Albums::tree', json={}).json()
 
     def get_albums_position_data(self) -> dict:
         """
