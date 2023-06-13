@@ -11,7 +11,7 @@ from urllib.parse import unquote
 
 from requests import Session
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""

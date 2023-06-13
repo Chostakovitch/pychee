@@ -11,10 +11,14 @@ description = "Client for Lychee, written in Python."
 readme = "README.md"
 dynamic = ["version"]
 license = {file = "LICENSE"}
+maintainers = [
+    {name = "Quentin Duchemin", email = "quentinduchemin@tuta.io"}
+]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
-    "Operating System :: OS Independent"
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries"
 ]
 requires-python = ">=3.7"
 
