@@ -4,3 +4,13 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+dependencies = [
+    "requests"
+]
+
+[project.urls]
+Home = "https://github.com/Chostakovitch/pychee"
+Repository = "https://github.com/Chostakovitch/pychee"
+Issues = "https://github.com/Chostakovitch/pychee/issues"
+Documentation = "https://chostakovitch.github.io/pychee/index.html"

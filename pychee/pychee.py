@@ -3,12 +3,13 @@
 """
 # pychee: Client for Lychee, written in Python.
 
-For additonal information, visit: https://github.com/LycheeOrg/Lychee.
+For additional information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
 from typing import List
-from requests import Session
 from urllib.parse import unquote
+
+from requests import Session
 
 __version__ = '0.2.1'
 
@@ -16,7 +17,7 @@ class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
 
 class LycheeNotFound(Exception):
-    """Raised when the requested ressource was not found."""
+    """Raised when the requested resource was not found."""
 
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
@@ -54,7 +55,7 @@ class LycheeAPISession(Session):
         # Initial CSRF
         super().request('GET', self._prefix_url)
         self._set_csrf_header()
-        # Lychee now explicitely requires client to accept JSON,
+        # Lychee now explicitly requires client to accept JSON,
         # else throws exception
         self.headers['Accept'] = 'application/json, text/javascript, */*; q=0.01'
 
