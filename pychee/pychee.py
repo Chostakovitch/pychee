@@ -3,20 +3,21 @@
 """
 # pychee: Client for Lychee, written in Python.
 
-For additonal information, visit: https://github.com/LycheeOrg/Lychee.
+For additional information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
 from typing import List
-from requests import Session
 from urllib.parse import unquote
 
-__version__ = '0.2.1'
+from requests import Session
+
+__version__ = '0.2.2'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
 
 class LycheeNotFound(Exception):
-    """Raised when the requested ressource was not found."""
+    """Raised when the requested resource was not found."""
 
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
@@ -54,7 +55,7 @@ class LycheeAPISession(Session):
         # Initial CSRF
         super().request('GET', self._prefix_url)
         self._set_csrf_header()
-        # Lychee now explicitely requires client to accept JSON,
+        # Lychee now explicitly requires client to accept JSON,
         # else throws exception
         self.headers['Accept'] = 'application/json, text/javascript, */*; q=0.01'
 
@@ -74,7 +75,7 @@ class LycheeAPISession(Session):
 
     def _set_csrf_header(self) -> None:
         """
-        Sets CSRF header from cookie for the whole session.
+        Set CSRF header from cookie for the whole session.
 
         CSRF generally prevents an attacker from forging a request
         sent from another website, e.g. in a JS script, by forcing
@@ -86,7 +87,9 @@ class LycheeAPISession(Session):
         csrf_token = self.cookies.get(self._CSRF_COOKIE)
         if csrf_token is not None:
             if csrf_token != self.headers.get(self._CSRF_HEADER):
-                self.headers[self._CSRF_HEADER] = unquote(csrf_token).replace('=', '')
+                self.headers[self._CSRF_HEADER] = unquote(
+                    csrf_token
+                ).replace('=', '')
 
 class LycheeClient:
     """
@@ -119,6 +122,15 @@ class LycheeClient:
         Returns an array of albums or false on failure.
         """
         return self._session.post('Albums::get', json={}).json()
+
+    def get_albums_tree(self):
+        """
+        Get List of Album Trees in Lychee.
+
+        Returns a list of albums dictionaries or an informative message on
+        failure.
+        """
+        return self._session.post('Albums::tree', json={}).json()
 
     def get_albums_position_data(self) -> dict:
         """

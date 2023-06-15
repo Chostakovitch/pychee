@@ -2,7 +2,10 @@
 
 Client for [Lychee](https://github.com/LycheeOrg/Lychee), written in Python.
 
-Lychee is a photo management system I've been using for years. I had the idea to make a « Lychee filesystem » with [FUSE](https://fr.wikipedia.org/wiki/Filesystem_in_Userspace), so I needed an API client.
+Lychee is a photo management system I've been using for years. I had the idea to
+make a « Lychee filesystem » with
+[FUSE](https://fr.wikipedia.org/wiki/Filesystem_in_Userspace), so I needed an
+API client.
 
 ## Installation
 
@@ -13,10 +16,13 @@ python3 -m pip install pychee
 ## Notes
 
 My reference is [this documentation](https://lycheeorg.github.io/docs/api.html).
-The API is partially implemented and focused on photo management, _i.e._ only `Albums`, `Photo`, `Frame`, `Sharing` and `Settings::setLogin`. Users can do whatever they want with their albums and photos and change their password.
+The API is partially implemented and focused on photo management, _i.e._ only
+`Albums`, `Photo`, `Frame`, `Sharing` and `Settings::setLogin`. Users can do
+whatever they want with their albums and photos and change their password.
 
 Disclaimer : I usually suck at coding, so use with caution and at your own risks.
-Tested with Lychee v4.7.0. The code probably won't be retrocompatible and should just work with the latest version.
+Tested with Lychee v4.7.0. The code probably won't be retrocompatible and should
+just work with the latest version.
 
 ## TODO
 
@@ -24,7 +30,10 @@ Add tests
 
 ## Example usage
 
-> ⚠️ `pychee` returns exactly what the API sends back, just parsing it to `dict` if necessary. As sample answers are not documented in the API and because answers tend to change over time, you should inspect requests in browser if your client code does not works anymore.
+> ⚠️ `pychee` returns exactly what the API sends back, just parsing it to `dict`
+if necessary. As sample answers are not documented in the API and because answers
+tend to change over time, you should inspect requests in browser if your client
+code does not works anymore.
 
 A sample of common API calls :
 
@@ -65,4 +74,5 @@ client.logout()
 
 ## Documentation
 
-Documentation is automatically published there : https://chostakovitch.github.io/pychee/index.html
+Documentation is automatically published on GitHub:
+https://chostakovitch.github.io/pychee/index.html
