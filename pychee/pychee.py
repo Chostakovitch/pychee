@@ -185,13 +185,12 @@ class LycheeClient:
     def set_album_public(
         self,
         album_id: str,
-        public: int,
-        visible: int,
-        nsfw: int,
-        downloadable: int,
-        share_button_visible: int,
-        full_photo: int,
-        password: str = ""
+        public: bool,
+        link_required: bool,
+        nsfw: bool,
+        downloadable: bool,
+        full_photo_access: int,
+        password: Optional[str] = None
     ):
         """
         Change the sharing properties of the album.
@@ -200,15 +199,14 @@ class LycheeClient:
         """
         data = {
             'albumID': album_id,
-            'public': public,
-            'visible': visible,
-            'nsfw': nsfw,
-            'downloadable': downloadable,
-            'share_button_visible': share_button_visible,
-            'full_photo': full_photo,
+            'grants_download': downloadable,
+            'grants_full_photo_access': full_photo_access,
+            'is_link_required': link_required,
+            'is_nsfw': nsfw,
+            'is_public': public,
             'password': password
         }
-        self._session.post('Album::setPublic', json=data)
+        self._session.post('Album::setProtectionPolicy', json=data)
 
     def delete_album(self, album_id: List[str]):
         """Delete the albums and all pictures in the album."""
