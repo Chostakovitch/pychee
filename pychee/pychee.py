@@ -6,12 +6,13 @@
 For additional information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
-from typing import List
+from typing import List, Dict, Optional
 from urllib.parse import unquote
+from datetime import datetime
 
 from requests import Session
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 class LycheeForbidden(Exception):
     """Raised when the Lychee request is unauthorized."""
@@ -308,7 +309,13 @@ class LycheeClient:
         data = {'photoIDs': ','.join(photo_ids), 'tags': ','.join(tags)}
         self._session.post('Photo::setTags', json=data)
 
-    def add_photo(self, photo: bytes, photo_name: str, album_id: str) -> str:
+    def add_photo(
+        self,
+        photo: bytes,
+        photo_name: str,
+        album_id: str,
+        file_last_modified_time: Optional[int] = None
+    ) -> Dict:
         """
         Upload a photo into an album.
 
@@ -316,7 +323,12 @@ class LycheeClient:
 
         Return the ID of the uploaded image.
         """
-        data = {'albumID': album_id}
+        if file_last_modified_time is None:
+            file_last_modified_time = datetime.now().microsecond
+        data = {
+            'albumID': album_id,
+            'fileLastModifiedTime': file_last_modified_time
+        }
         # Lychee expects a multipart/form-data with a field called name and being `file`,
         # which contradicts with API doc for now
         # See syntax there : https://stackoverflow.com/a/12385661
