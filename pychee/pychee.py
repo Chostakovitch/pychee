@@ -159,7 +159,7 @@ class LycheeClient:
         password.
         """
         data = {'albumID': album_id, 'password': password}
-        self._session.post('Album::getPublic', json=data)
+        return self._session.post('Album::getPublic', json=data).json()
 
     def add_album(self, title: str, parent_id: str = None) -> str:
         """
