@@ -6,21 +6,26 @@
 For additional information, visit: https://github.com/LycheeOrg/Lychee.
 """
 from posixpath import join
-from typing import List
+from typing import List, Dict, Optional
 from urllib.parse import unquote
+from datetime import datetime
 
 from requests import Session
+from requests.exceptions import JSONDecodeError
 
-__version__ = '0.2.2'
-
-class LycheeForbidden(Exception):
-    """Raised when the Lychee request is unauthorized."""
-
-class LycheeNotFound(Exception):
-    """Raised when the requested resource was not found."""
+__version__ = '0.2.4'
 
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
+
+class LycheeNotAuthenticated(LycheeError):
+    """Raised when a call results in an unauthenticated error."""
+
+class LycheeForbidden(LycheeError):
+    """Raised when the Lychee request is unauthorized."""
+
+class LycheeNotFound(LycheeError):
+    """Raised when the requested resource was not found."""
 
 #FIXME add error code handling
 #FIXME adjust to API sending JSON because we changed Accept
@@ -36,6 +41,10 @@ class LycheeAPISession(Session):
     FORBID_MESSAGES = [
         '"Warning: Album private!"',
         '"Error: validation failed"'
+    ]
+
+    NOT_AUTHENTICATED_MESSAGES = [
+        'User is not authenticated',
     ]
 
     NOT_FOUND_MESSAGES = [
@@ -67,10 +76,18 @@ class LycheeAPISession(Session):
         # Update CSRF header if changed
         if response.text in self.FORBID_MESSAGES:
             raise LycheeForbidden(response.text)
-        if response.text in self.NOT_FOUND_MESSAGES:
+        elif response.text in self.NOT_FOUND_MESSAGES:
             raise LycheeNotFound(response.text)
-        if response.text == 'false' or response.text is None:
+        elif response.text == 'false' or response.text is None:
             raise LycheeError('Could be unauthorized, wrong args, who knows?')
+        else:
+            try:
+                json = response.json()
+                if json.get('message') in self.NOT_AUTHENTICATED_MESSAGES:
+                    raise LycheeNotAuthenticated(response.text)
+            except JSONDecodeError:
+                pass # Do Nothing
+        response.raise_for_status()
         return response
 
     def _set_csrf_header(self) -> None:
@@ -102,13 +119,17 @@ class LycheeClient:
     def __init__(self, url: str):
         """Initialize a new Lychee session for given URL."""
         self._session = LycheeAPISession(url)
-        self._session.post('Session::init', json={})
+        self._session.request('post', 'Session::init', json={})
 
     def login(self, username: str, password: str) -> None:
         """Log in to Lychee server."""
         auth = {'username': username, 'password': password}
         # Session takes care of setting cookies
-        login_response = self._session.post('Session::login', json=auth)
+        login_response = self._session.request(
+            'post',
+            'Session::login',
+            json=auth
+        )
 
     def logout(self):
         """Log out from Lychee server."""
@@ -121,7 +142,7 @@ class LycheeClient:
 
         Returns an array of albums or false on failure.
         """
-        return self._session.post('Albums::get', json={}).json()
+        return self._session.request('post', 'Albums::get', json={}).json()
 
     def get_albums_tree(self):
         """
@@ -130,7 +151,7 @@ class LycheeClient:
         Returns a list of albums dictionaries or an informative message on
         failure.
         """
-        return self._session.post('Albums::tree', json={}).json()
+        return self._session.request('post', 'Albums::tree', json={}).json()
 
     def get_albums_position_data(self) -> dict:
         """
@@ -158,7 +179,7 @@ class LycheeClient:
         password.
         """
         data = {'albumID': album_id, 'password': password}
-        self._session.post('Album::getPublic', json=data)
+        return self._session.post('Album::getPublic', json=data).json()
 
     def add_album(self, title: str, parent_id: str = None) -> str:
         """
@@ -169,28 +190,27 @@ class LycheeClient:
         Return the ID of the new image.
         """
         data = {'title': title, 'parent_id': parent_id}
-        return self._session.post('Album::add', json=data).json()
+        return self._session.request('post', 'Album::add', json=data).json()
 
     def set_albums_title(self, album_ids: List[str], title: str):
         """Change the title of the albums."""
         data = {'albumIDs': ','.join(album_ids), 'title': title}
-        self._session.post('Album::setTitle', json=data)
+        self._session.request('post', 'Album::setTitle', json=data)
 
     def set_album_description(self, album_id: str, description: str):
         """Change the description of the album."""
         data = {'albumID': album_id, 'description': description}
-        self._session.post('Album::setDescription', json=data)
+        self._session.request('post', 'Album::setDescription', json=data)
 
     def set_album_public(
         self,
         album_id: str,
-        public: int,
-        visible: int,
-        nsfw: int,
-        downloadable: int,
-        share_button_visible: int,
-        full_photo: int,
-        password: str = ""
+        public: bool,
+        link_required: bool,
+        nsfw: bool,
+        downloadable: bool,
+        full_photo_access: int,
+        password: Optional[str] = None
     ):
         """
         Change the sharing properties of the album.
@@ -199,20 +219,19 @@ class LycheeClient:
         """
         data = {
             'albumID': album_id,
-            'public': public,
-            'visible': visible,
-            'nsfw': nsfw,
-            'downloadable': downloadable,
-            'share_button_visible': share_button_visible,
-            'full_photo': full_photo,
+            'grants_download': downloadable,
+            'grants_full_photo_access': full_photo_access,
+            'is_link_required': link_required,
+            'is_nsfw': nsfw,
+            'is_public': public,
             'password': password
         }
-        self._session.post('Album::setPublic', json=data)
+        self._session.request('post', 'Album::setProtectionPolicy', json=data)
 
     def delete_album(self, album_id: List[str]):
         """Delete the albums and all pictures in the album."""
         data = {'albumIDs': album_id}
-        self._session.post('Album::delete', json=data)
+        self._session.request('post', 'Album::delete', json=data)
 
     def merge_albums(self, dest_id: str, source_ids: List[str]):
         """
@@ -222,12 +241,12 @@ class LycheeClient:
         it will be deleted. Don't do this.
         """
         data = {'albumIDs': dest_id + ',' + ','.join(source_ids)}
-        self._session.post('Album::merge', json=data)
+        self._session.request('post', 'Album::merge', json=data)
 
     def move_albums(self, dest_id: str, source_ids: List[str]):
         """Move albums into another one, which becomes their parent."""
         data = {'albumIDs': dest_id + ',' + ','.join(source_ids)}
-        self._session.post('Album::move', json=data)
+        self._session.request('post', 'Album::move', json=data)
 
     def set_album_license(self, album_id: str, license: str):
         """
@@ -239,7 +258,7 @@ class LycheeClient:
         Returns false if license name is unrecognized.
         """
         data = {'albumID': album_id, 'license': license}
-        self._session.post('Album::setLicense', json=data)
+        self._session.request('post', 'Album::setLicense', json=data)
 
     def get_albums_archive(self, album_ids: List[str]) -> bytes:
         """
@@ -251,7 +270,11 @@ class LycheeClient:
         data = {'albumIDs': ','.join(album_ids)}
         # For large archives, maybe we would use
         # stream=True and iterate over chunks of answer.
-        return self._session.get('Album::getArchive', params=data).content
+        return self._session.request(
+            'post',
+            'Album::getArchive',
+            params=data
+        ).content
 
     def get_frame_settings(self) -> dict:
         """
@@ -308,7 +331,13 @@ class LycheeClient:
         data = {'photoIDs': ','.join(photo_ids), 'tags': ','.join(tags)}
         self._session.post('Photo::setTags', json=data)
 
-    def add_photo(self, photo: bytes, photo_name: str, album_id: str) -> str:
+    def add_photo(
+        self,
+        photo: bytes,
+        photo_name: str,
+        album_id: str,
+        file_last_modified_time: Optional[int] = None
+    ) -> Dict:
         """
         Upload a photo into an album.
 
@@ -316,7 +345,12 @@ class LycheeClient:
 
         Return the ID of the uploaded image.
         """
-        data = {'albumID': album_id}
+        if file_last_modified_time is None:
+            file_last_modified_time = datetime.now().microsecond
+        data = {
+            'albumID': album_id,
+            'fileLastModifiedTime': file_last_modified_time
+        }
         # Lychee expects a multipart/form-data with a field called name and being `file`,
         # which contradicts with API doc for now
         # See syntax there : https://stackoverflow.com/a/12385661
