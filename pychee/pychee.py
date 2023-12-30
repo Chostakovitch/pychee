@@ -11,6 +11,7 @@ from urllib.parse import unquote
 from datetime import datetime
 
 from requests import Session
+from requests.exceptions import JSONDecodeError
 
 __version__ = '0.2.4'
 
@@ -72,7 +73,6 @@ class LycheeAPISession(Session):
         url = join(self._prefix_url, self.BASE_API_FRAGMENT, url)
         response = super().request(method, url, *args, **kwargs)
         self._set_csrf_header()
-        json = response.json()
         # Update CSRF header if changed
         if response.text in self.FORBID_MESSAGES:
             raise LycheeForbidden(response.text)
@@ -80,8 +80,14 @@ class LycheeAPISession(Session):
             raise LycheeNotFound(response.text)
         elif response.text == 'false' or response.text is None:
             raise LycheeError('Could be unauthorized, wrong args, who knows?')
-        elif json.get('message') in self.NOT_AUTHENTICATED_MESSAGES:
-            raise LycheeNotAuthenticated(response.text)
+        else:
+            try:
+                json = response.json()
+                if json.get('message') in self.NOT_AUTHENTICATED_MESSAGES:
+                    raise LycheeNotAuthenticated(response.text)
+            except JSONDecodeError:
+                pass # Do Nothing
+        response.raise_for_status()
         return response
 
     def _set_csrf_header(self) -> None:
