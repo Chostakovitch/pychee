@@ -77,10 +77,11 @@ class LycheeAPISession(Session):
             raise LycheeForbidden(response.text)
         elif response.text in self.NOT_FOUND_MESSAGES:
             raise LycheeNotFound(response.text)
-        elif response.text in self.NOT_AUTHENTICATED_MESSAGES:
-            raise LycheeNotAuthenticated(response.text)
-        if response.text == 'false' or response.text is None:
+        elif response.text == 'false' or response.text is None:
             raise LycheeError('Could be unauthorized, wrong args, who knows?')
+        elif hasattr(json := response.json(), 'message'):
+            if json.get('message') in self.NOT_AUTHENTICATED_MESSAGES:
+                raise LycheeNotAuthenticated(response.text)
         return response
 
     def _set_csrf_header(self) -> None:
