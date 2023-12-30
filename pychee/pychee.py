@@ -12,16 +12,19 @@ from datetime import datetime
 
 from requests import Session
 
-__version__ = '0.2.3'
-
-class LycheeForbidden(Exception):
-    """Raised when the Lychee request is unauthorized."""
-
-class LycheeNotFound(Exception):
-    """Raised when the requested resource was not found."""
+__version__ = '0.2.4'
 
 class LycheeError(Exception):
     """Raised for general Lychee errors."""
+
+class LycheeNotAuthenticated(LycheeError):
+    """Raised when a call results in an unauthenticated error."""
+
+class LycheeForbidden(LycheeError):
+    """Raised when the Lychee request is unauthorized."""
+
+class LycheeNotFound(LycheeError):
+    """Raised when the requested resource was not found."""
 
 #FIXME add error code handling
 #FIXME adjust to API sending JSON because we changed Accept
@@ -37,6 +40,10 @@ class LycheeAPISession(Session):
     FORBID_MESSAGES = [
         '"Warning: Album private!"',
         '"Error: validation failed"'
+    ]
+
+    NOT_AUTHENTICATED_MESSAGES = [
+        'User is not authenticated',
     ]
 
     NOT_FOUND_MESSAGES = [
@@ -68,8 +75,10 @@ class LycheeAPISession(Session):
         # Update CSRF header if changed
         if response.text in self.FORBID_MESSAGES:
             raise LycheeForbidden(response.text)
-        if response.text in self.NOT_FOUND_MESSAGES:
+        elif response.text in self.NOT_FOUND_MESSAGES:
             raise LycheeNotFound(response.text)
+        elif response.text in self.NOT_AUTHENTICATED_MESSAGES:
+            raise LycheeNotAuthenticated(response.text)
         if response.text == 'false' or response.text is None:
             raise LycheeError('Could be unauthorized, wrong args, who knows?')
         return response
