@@ -5,3 +5,5 @@
 
 For additonal information, visit: [Lychee](https://github.com/LycheeOrg/Lychee).
 """
+
+from pychee.pychee import __version__
